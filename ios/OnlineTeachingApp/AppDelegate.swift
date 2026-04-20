@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   ) -> Bool {
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
-    delegate.dependencyProvider = RCTAppDependencyProvider()
+    delegate.dependencyProvider = AppDependencyProvider()
 
     reactNativeDelegate = delegate
     reactNativeFactory = factory

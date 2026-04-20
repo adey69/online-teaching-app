@@ -8,14 +8,16 @@ require Pod::Executable.execute_command('node', ['-p',
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
-end
+# use_frameworks! :linkage => :static is required for Swift + React Native.
+# It makes all pods build as proper Clang modules so the auto-generated
+# OnlineTeachingApp-Swift.h can `@import React_RCTAppDelegate` (and others)
+# without "Module not found" errors.
+use_frameworks! :linkage => :static
 
 target 'OnlineTeachingApp' do
   config = use_native_modules!
+
+  pod 'Whiteboard'
 
   use_react_native!(
     :path => config[:reactNativePath],
